@@ -1,0 +1,69 @@
+<h1>FerBuy Python bindings</h1>
+<p>The FerBuy library provides integration access to the FerBuy Gateway.</p>
+<h2>Dependencies</h2>
+<ul>
+<li>Python 2.6, 2.7, 3,3 or 3.4.</li>
+<li><a href="https://docs.python.org/2/library/json.html">json</a></li>
+<li><a href="http://docs.python-requests.org/en/latest/">requests</a> <em>optional</em></li>
+</ul>
+<h2>Installation</h2>
+<p>You need to checkout the source code from GitHub to install the package.
+The easiest way to do so it to run:</p>
+<p><code>$ git clone https://github.com/FerBuy/ferbuy-python.git
+    $ cd ferbuy-python
+    $ pip setup.py install</code></p>
+<p>See http://www.pip-installer.org/en/latest/index.html for instructions
+on installing pip. If you are on a system with easy_install but not
+pip, you can use easy_install instead. If you're not using virtualenv,
+you may have to prefix those commands with <code>sudo</code>. You can learn more
+about virtualenv at http://www.virtualenv.org/</p>
+<h2>Testing</h2>
+<p>We commit to being compatible with Python 2.6+, Python 3.1+ and PyPy.
+To run all test suites it is assumed that the package is in your PYTHONPATH, if
+not add <code>ferbuy</code> package to your PYTHONPATH:
+<code>$ cd ferbuy-python
+    $ export PYTHONPATH=$PYTHONPATH:$PWD</code></p>
+<p>To run all tests execute:
+<code>$ cd ferbuy
+    $ python -m unittest discover</code></p>
+<h2>Quick Start Example</h2>
+<p>Example API call to refund a transaction for 1 EUR:</p>
+<p>```python
+    import ferbuy</p>
+<pre><code>ferbuy.site_id = 1000
+ferbuy.api_secret = 'you_api_secret'
+
+result = ferbuy.Transaction.refund(
+    transaction_id=10000,
+    amount=100,
+    currency='EUR'
+)
+
+if result.response.code == 200:
+    print "Success:", result.response.message
+else:
+    print "Failure:", result.response.message
+</code></pre>
+<p>```</p>
+<p>Example call for marking order as shipped:</p>
+<p>```python
+    import ferbuy</p>
+<pre><code>ferbuy.site_id = 1000
+ferbuy.api_secret = 'you_api_secret'
+
+result = ferbuy.Order.shipped(
+    transaction_id=10000,
+    courier='DHL',
+    tracking_number=12345
+)
+
+if result.response.code == 200:
+    print "Success:", result.response.message
+else:
+    print "Failure:", result.response.message
+</code></pre>
+<p>```</p>
+<h2>Documentation</h2>
+<p>TO BE ADDED.</p>
+<h2>License</h2>
+<p>See the LICENSE file.</p>
