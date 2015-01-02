@@ -14,9 +14,9 @@ You need to checkout the source code from GitHub to install the package.
 The easiest way to do so it to run:
 
 ```
-    $ git clone https://github.com/FerBuy/ferbuy-python.git
-    $ cd ferbuy-python
-    $ pip setup.py install
+$ git clone https://github.com/FerBuy/ferbuy-python.git
+$ cd ferbuy-python
+$ pip setup.py install
 ```
 
 See http://www.pip-installer.org/en/latest/index.html for instructions
@@ -31,14 +31,14 @@ We commit to being compatible with Python 2.6+, Python 3.1+ and PyPy.
 To run all test suites it is assumed that the package is in your PYTHONPATH, if
 not add `ferbuy` package to your PYTHONPATH:
 ```
-    $ cd ferbuy-python
-    $ export PYTHONPATH=$PYTHONPATH:$PWD
+$ cd ferbuy-python
+$ export PYTHONPATH=$PYTHONPATH:$PWD
 ```
 
 To run all tests execute:
 ```
-    $ cd ferbuy
-    $ python -m unittest discover
+$ cd ferbuy
+$ python -m unittest discover
 ```
 
 ## Quick Start Example
@@ -46,41 +46,41 @@ To run all tests execute:
 Example API call to refund a transaction for 1 EUR:
 
 ```python
-    import ferbuy
+import ferbuy
 
-    ferbuy.site_id = 1000
-    ferbuy.api_secret = 'you_api_secret'
+ferbuy.site_id = 1000
+ferbuy.api_secret = 'you_api_secret'
 
-    result = ferbuy.Transaction.refund(
-        transaction_id=10000,
-        amount=100,
-        currency='EUR'
-    )
+result = ferbuy.Transaction.refund(
+    transaction_id=10000,
+    amount=100,
+    currency='EUR'
+)
 
-    if result.response.code == 200:
-        print "Success:", result.response.message
-    else:
-        print "Failure:", result.response.message
+if result.response.code == 200:
+    print "Success:", result.response.message
+else:
+    print "Failure:", result.response.message
 ```
 
 Example call for marking order as shipped:
 
 ```python
-    import ferbuy
+import ferbuy
 
-    ferbuy.site_id = 1000
-    ferbuy.api_secret = 'you_api_secret'
+ferbuy.site_id = 1000
+ferbuy.api_secret = 'you_api_secret'
 
-    result = ferbuy.Order.shipped(
-        transaction_id=10000,
-        courier='DHL',
-        tracking_number=12345
-    )
+result = ferbuy.Order.shipped(
+    transaction_id=10000,
+    courier='DHL',
+    tracking_number=12345
+)
 
-    if result.response.code == 200:
-        print "Success:", result.response.message
-    else:
-        print "Failure:", result.response.message
+if result.response.code == 200:
+    print "Success:", result.response.message
+else:
+    print "Failure:", result.response.message
 ```
 
 ## Documentation
