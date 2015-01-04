@@ -104,7 +104,7 @@ class APIRequestor(Singleton):
 
         headers = {
             'X-FerBuy-Client-User-Agent': utils.json.dumps(add_info),
-            'User-Agent': 'FerBug/v1 PythonBinding/{0}'.format(version.VERSION),
+            'User-Agent': 'FerBuy/v1 PythonBinding/{0}'.format(version.VERSION),
         }
 
         if method == 'post':
@@ -124,6 +124,9 @@ class APIRequestor(Singleton):
         return response, status_code
 
     def process_response(self, response, status_code):
+        if not(200 <= status_code <= 300):
+            self.handle_error(response, status_code)
+
         try:
             resp_dict = utils.json.loads(response)
             obj = FerbuyObject(resp_dict['api'])
@@ -135,8 +138,6 @@ class APIRequestor(Singleton):
             else:
                 raise errors.APIError("Invalid response object from API")
 
-        if not(200 <= status_code <= 300):
-            self.handle_error(response, status_code)
         return obj
 
     def handle_error(self, response, status_code):
