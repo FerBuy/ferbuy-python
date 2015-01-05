@@ -49,7 +49,7 @@ Example API call to refund a transaction for 1 EUR:
 import ferbuy
 
 ferbuy.site_id = 1000
-ferbuy.api_secret = 'you_api_secret'
+ferbuy.api_secret = 'your_api_secret'
 
 result = ferbuy.Transaction.refund(
     transaction_id=10000,
@@ -69,7 +69,7 @@ Example call for marking order as shipped:
 import ferbuy
 
 ferbuy.site_id = 1000
-ferbuy.api_secret = 'you_api_secret'
+ferbuy.api_secret = 'your_api_secret'
 
 result = ferbuy.Order.shipped(
     transaction_id=10000,
