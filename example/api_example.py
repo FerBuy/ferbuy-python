@@ -1,7 +1,7 @@
 import ferbuy
 
 ferbuy.site_id = 1000
-ferbuy.api_secret = 'your_api_secret'
+ferbuy.secret = 'your_secret'
 
 result = ferbuy.Transaction.refund(
     transaction_id=10000,

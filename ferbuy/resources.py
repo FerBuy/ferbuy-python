@@ -28,9 +28,6 @@ class Order(Resource):
 
         Returns:
             FerbuyObject: Response object containing API's request and response.
-
-        Raises:
-            ValueError: If `site_id` or `api_secret` are not set.
         """
         requestor = APIRequestor()
 

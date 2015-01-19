@@ -30,7 +30,7 @@ DUMMY_DELIVERY = {
 
 class FerbuyTestCase(unittest.TestCase):
 
-    RECOVER_ATTRS = ['site_id', 'api_secret']
+    RECOVER_ATTRS = ['site_id', 'secret', 'env']
 
     def setUp(self):
         super(FerbuyTestCase, self).setUp()

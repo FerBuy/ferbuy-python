@@ -19,7 +19,7 @@ class ResourceTests(FerbuyUnitTestCase):
 
         self.requestor = ferbuy.api_requestor.APIRequestor(
             site_id=1000,
-            api_secret='dummy secret',
+            secret='dummy secret',
             client=self.http_client)
 
     @property
