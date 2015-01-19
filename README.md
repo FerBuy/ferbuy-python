@@ -6,7 +6,7 @@ The FerBuy library provides integration access to the FerBuy Gateway.
 
 * Python 2.6, 2.7, 3,3 or 3.4.
 * [json](https://docs.python.org/2/library/json.html)
-* [requests](http://docs.python-requests.org/en/latest/) *(optional)*
+* *(optional)* [requests](http://docs.python-requests.org/en/latest/)
 
 ## Installation
 
@@ -43,13 +43,88 @@ $ python -m unittest discover
 
 ## Quick Start Example
 
+### Example Gateway usage
+
+In the Gateway example we are using [Flask](http://flask.pocoo.org/)
+microframework to demonstrate customer redirect and callback handling.
+
+Here is the simple redirect example:
+```python
+import ferbuy
+import random
+
+from flask import Flask
+from flask import request
+from flask import render_template
+
+app = Flask(__name__)
+
+ferbuy.site_id = 1000
+ferbuy.secret = 'your_secret'
+ferbuy.env = 'demo'
+
+@app.route('/')
+def redirect():
+    data = {
+        'reference': 'Transaction{0}'.format(random.randint(10000, 99999)),
+        'currency': 'EUR',
+        'amount': random.randint(10000, 29999),
+        'return_url_ok': 'http://www.your-site.com/success/',
+        'return_url_cancel': 'http://www.your-site.com/failed/',
+        'first_name': 'John',
+        'last_name': 'Doe',
+        'address': 'Business Center',
+        'postal_code': 'SLM000',
+        'city': 'Landville',
+        'country_iso': 'US',
+        'email': 'demo@email.com',
+    }
+    gateway = ferbuy.Gateway(data)
+    return render_template('redirect.html', gateway=gateway)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=True)
+```
+
+This is how the template looks like:
+```html
+<form method="post" action="{{ gateway.url }}">
+    {{ gateway.render|safe }}
+    <input type="submit" value="Submit">
+</form>
+```
+
+To verify the call we need to extend the app above and add the following code:
+```python
+@app.route('/callback', methods=['POST', 'PUT'])
+def callback():
+    if ferbuy.Gateway.verify_callback(request.form):
+        status = int(request.form['status'])
+        if status == 200:
+            # Transaction successful
+            pass
+        elif status >= 400:
+            # Transaction failed
+            pass
+    else:
+        # Unable to verify callback
+        pass
+    return "{0}.{1}".format(request.form['transaction_id'],
+                            request.form['status'])
+```
+
+The full working example can be found in
+[example](example/gateway_example.py) folder.
+
+### Example API usage
+
 Example API call to refund a transaction for 1 EUR:
 
 ```python
 import ferbuy
 
 ferbuy.site_id = 1000
-ferbuy.api_secret = 'your_api_secret'
+ferbuy.secret = 'your_secret'
 
 result = ferbuy.Transaction.refund(
     transaction_id=10000,
@@ -69,7 +144,7 @@ Example call for marking order as shipped:
 import ferbuy
 
 ferbuy.site_id = 1000
-ferbuy.api_secret = 'your_api_secret'
+ferbuy.secret = 'your_secret'
 
 result = ferbuy.Order.shipped(
     transaction_id=10000,

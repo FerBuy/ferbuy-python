@@ -14,12 +14,12 @@ class MatchHeaders(object):
 
     METHOD_SPECIFIC_HEADERS = {'post': ['Content-Type']}
 
-    def __init__(self, site_id=None, api_secret=None,
+    def __init__(self, site_id=None, secret=None,
                  extra={}, request_method=None):
 
         self.request_method = request_method
         self.site_id = site_id or ferbuy.site_id
-        self.api_secret = site_id or ferbuy.api_secret
+        self.secret = secret or ferbuy.secret
         self.extra = extra
 
     def __eq__(self, other):
@@ -53,7 +53,7 @@ class APIRequestorTests(FerbuyUnitTestCase):
 
         self.requestor = ferbuy.api_requestor.APIRequestor(
             site_id=1000,
-            api_secret='dummy secret',
+            secret='dummy secret',
             client=self.http_client)
 
     def valid_url(self, path='/dummy'):

@@ -45,18 +45,17 @@ class FerbuyObject(dict):
 
 class APIRequestor(Singleton):
 
-    def __init__(self, site_id=None, api_secret=None,
-                 api_base=None, client=None):
+    def __init__(self, site_id=None, secret=None, api_base=None, client=None):
 
         if site_id:
             self.site_id = site_id
         else:
             self.site_id = ferbuy.site_id
 
-        if api_secret:
-            self.api_secret = api_secret
+        if secret:
+            self.secret = secret
         else:
-            self.api_secret = ferbuy.api_secret
+            self.secret = ferbuy.secret
 
         if api_base:
             self.api_base = api_base
@@ -72,7 +71,7 @@ class APIRequestor(Singleton):
     def sign(self, transaction_id, command, output_type, **kwargs):
         signature = "&".join([
             str(self.site_id), str(transaction_id),
-            command, output_type, str(self.api_secret)
+            command, output_type, str(self.secret)
         ])
         hash = hashlib.sha1(signature)
         return hash.hexdigest()
